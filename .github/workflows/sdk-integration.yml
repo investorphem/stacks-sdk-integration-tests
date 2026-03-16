@@ -1,0 +1,29 @@
+name: Stacks SDK Integration Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-examples:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18, 20]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install all SDKs
+        run: |
+          npm install sbtc-payment-sdk stx-vault-sdk stx-defi-activity-sdk stx-portfolio-sdk stacks-pay-sdk hashlock-lending-sdk
+          npm list --depth=0

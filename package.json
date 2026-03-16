@@ -1,0 +1,7 @@
+{
+  "name": "stacks-sdk-integration-tests",
+  "private": true,
+  "workspaces": [
+    "examples/*"
+  ]
+}
