@@ -3,34 +3,46 @@ name: Stacks SDK Integration Test
 on:
   push:
     branches: [ main ]
-
   pull_request:
     branches: [ main ]
-
   schedule:
-    - cron: "0 */6 * * *"   # runs every 6 hours (4 times daily)
+    - cron: "0 */6 * * *" # Runs every 6 hours
 
 jobs:
   test-examples:
     runs-on: ${{ matrix.os }}
+    # Restrict permissions to the bare minimum
+    permissions:
+      contents: read
 
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         node-version: [18, 20, 21]
-        project: [example1, example2, example3, example4, example5, example6, example7, example8, example9, example10]
+        # Limiting to active projects to reduce attack surface
+        project: [example1, example2, example3, example4, example5]
 
     steps:
+      # Pinned to v4.1.1 SHA
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 
 
+      # Pinned to v4.0.2 SHA
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f525247ffad35901993939 
         with:
           node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: 'examples/${{ matrix.project }}/package-lock.json'
 
       - name: Install SDKs
         run: |
           cd examples/${{ matrix.project }}
-          npm install sbtc-payment-sdk stx-vault-sdk stx-defi-activity-sdk stx-portfolio-sdk stacks-pay-sdk hashlock-lending-sdk
-          npm list --depth=0
+          # 1. Ensure a lockfile exists (run this once locally first!)
+          # 2. Use 'npm ci' for clean, reproducible, and secure installs
+          npm ci 
+          
+      - name: Verify Versions
+        run: |
+          cd examples/${{ matrix.project }}
+          npm list axios --depth=10
