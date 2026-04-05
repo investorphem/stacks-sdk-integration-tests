@@ -1,5 +1,5 @@
 {
-  "name": "example1",
+  "name": "example2",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
   "dependencies": {
     "stacks-pay-sdk": "latest",
     "stx-portfolio-sdk": "latest",
+    "hashlock-lending-sdk": "latest",
     "axios": "1.14.0"
   }
 }
