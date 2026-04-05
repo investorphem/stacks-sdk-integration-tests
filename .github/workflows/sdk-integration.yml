@@ -22,7 +22,6 @@ jobs:
         project: [example1, example2, example3, example4, example5]
 
     steps:
-      # Updated to verified v4 tags to resolve the resolution error
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -30,18 +29,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: 'examples/${{ matrix.project }}/package-lock.json'
+          # Caching is disabled here because you're on mobile and 
+          # haven't committed a package-lock.json yet.
+          # Once you commit one, you can re-enable 'cache: npm'
 
-      - name: Install SDKs
+      - name: Install All Workspace Dependencies
         run: |
-          cd examples/${{ matrix.project }}
-          # Use 'npm ci' to strictly follow your (sanitized) lockfile
-          # and add --ignore-scripts to block any residual malicious post-installs
-          npm ci --ignore-scripts 
-          
+          # Running install at the root handles all examples at once 
+          # thanks to your "workspaces" config. 
+          # --ignore-scripts blocks the axios malware from running.
+          npm install --ignore-scripts
+
       - name: Verify Versions
         run: |
-          cd examples/${{ matrix.project }}
-          # This verifies exactly which version of axios was installed
-          npm list axios --depth=10
+          # This verifies exactly which version of axios was installed 
+          # across your workspaces.
+          npm list axios --all
+
+      - name: Run Test for ${{ matrix.project }}
+        run: |
+          # Uses the npm workspace command to run tests for specific projects
+          npm test -w ${{ matrix.project }}
