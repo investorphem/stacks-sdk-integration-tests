@@ -2,5 +2,12 @@
   "name": "example1",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "stacks-pay-sdk": "latest",
+    "stx-portfolio-sdk": "latest",
+    "axios": "1.14.0"
+  }
 }
