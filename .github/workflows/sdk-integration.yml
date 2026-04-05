@@ -3,7 +3,7 @@ name: Full MASONODE SDK Integration Test
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Allows you to trigger this manually from your phone
+  workflow_dispatch: 
 
 jobs:
   test-all:
@@ -18,11 +18,18 @@ jobs:
           node-version: 22
 
       - name: Secure Install
-        # Installs all dependencies for all workspaces at once
+        # --ignore-scripts is your shield against the axios malware
         run: npm install --ignore-scripts
 
       - name: Run All Tests
         run: |
-          # The --if-present flag ensures it doesn't crash on empty examples
-          # --workspaces (or -ws) tells npm to run the command in every sub-package
-          npm test --workspaces --if-present
+          # Only run tests for workspaces that actually have an index.js
+          # This prevents the "MODULE_NOT_FOUND" errors for empty examples
+          for dir in examples/*; do
+            if [ -f "$dir/index.js" ]; then
+              echo "🚀 Testing Workspace: $dir"
+              npm test -w "$dir"
+            else
+              echo "⏩ Skipping empty workspace: $dir"
+            fi
+          done
