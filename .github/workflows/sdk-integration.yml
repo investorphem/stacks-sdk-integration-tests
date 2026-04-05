@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18, 20, 21]
+        node-version: [20, 22] # Using current LTS versions
         project: [example1, example2, example3, example4, example5]
 
     steps:
@@ -29,24 +29,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # Caching is disabled here because you're on mobile and 
-          # haven't committed a package-lock.json yet.
-          # Once you commit one, you can re-enable 'cache: npm'
 
-      - name: Install All Workspace Dependencies
+      - name: Secure Install (All Workspaces)
         run: |
-          # Running install at the root handles all examples at once 
-          # thanks to your "workspaces" config. 
-          # --ignore-scripts blocks the axios malware from running.
+          # --ignore-scripts is CRITICAL: it prevents the axios RAT from executing
           npm install --ignore-scripts
 
-      - name: Verify Versions
+      - name: Malware Audit
         run: |
-          # This verifies exactly which version of axios was installed 
-          # across your workspaces.
-          npm list axios --all
+          # Specifically check for the compromised Axios versions and the plain-crypto-js dropper
+          if npm ls axios | grep -E "1\.14\.1|0\.30\.4" || npm ls plain-crypto-js; then
+            echo "🚨 SECURITY ALERT: Compromised Axios or Malware Dropper detected in workspaces!"
+            exit 1
+          else
+            echo "✅ No known malicious packages found."
+          fi
 
       - name: Run Test for ${{ matrix.project }}
         run: |
-          # Uses the npm workspace command to run tests for specific projects
+          # Leverage workspaces to run tests without manual 'cd'
           npm test -w ${{ matrix.project }}
