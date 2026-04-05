@@ -1,5 +1,5 @@
 {
-  "name": "example2",
+  "name": "example1",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,13 @@
     "stacks-pay-sdk": "latest",
     "stx-portfolio-sdk": "latest",
     "hashlock-lending-sdk": "latest",
+    "stx-defi-activity-sdk": "latest",
+    "stx-vault-sdk": "latest",
+    "sbtc-payment-sdk": "latest",
+    "@investorphem/stx-validator-tools": "latest",
+    "@investorphem/string-tools": "latest",
+    "@investorphem/stx-utils": "latest",
+    "@investorphem/validator-tools": "latest",
     "axios": "1.14.0"
   }
 }
