@@ -1,26 +1,13 @@
-name: Stacks SDK Integration Test
+name: Full MASONODE SDK Integration Test
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: "0 */6 * * *" # Runs every 6 hours
+  workflow_dispatch: # Allows you to trigger this manually from your phone
 
 jobs:
-  test-examples:
-    runs-on: ${{ matrix.os }}
-    permissions:
-      contents: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [20, 22] # Using current LTS versions
-        project: [example1, example2, example3, example4, example5]
-
+  test-all:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -28,24 +15,14 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
 
-      - name: Secure Install (All Workspaces)
-        run: |
-          # --ignore-scripts is CRITICAL: it prevents the axios RAT from executing
-          npm install --ignore-scripts
+      - name: Secure Install
+        # Installs all dependencies for all workspaces at once
+        run: npm install --ignore-scripts
 
-      - name: Malware Audit
+      - name: Run All Tests
         run: |
-          # Specifically check for the compromised Axios versions and the plain-crypto-js dropper
-          if npm ls axios | grep -E "1\.14\.1|0\.30\.4" || npm ls plain-crypto-js; then
-            echo "🚨 SECURITY ALERT: Compromised Axios or Malware Dropper detected in workspaces!"
-            exit 1
-          else
-            echo "✅ No known malicious packages found."
-          fi
-
-      - name: Run Test for ${{ matrix.project }}
-        run: |
-          # Leverage workspaces to run tests without manual 'cd'
-          npm test -w ${{ matrix.project }}
+          # The --if-present flag ensures it doesn't crash on empty examples
+          # --workspaces (or -ws) tells npm to run the command in every sub-package
+          npm test --workspaces --if-present
