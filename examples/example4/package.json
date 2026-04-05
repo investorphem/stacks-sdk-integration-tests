@@ -2,5 +2,20 @@
   "name": "example4",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "stacks-pay-sdk": "latest",
+    "stx-portfolio-sdk": "latest",
+    "hashlock-lending-sdk": "latest",
+    "stx-defi-activity-sdk": "latest",
+    "stx-vault-sdk": "latest",
+    "sbtc-payment-sdk": "latest",
+    "@investorphem/stx-validator-tools": "latest",
+    "@investorphem/string-tools": "latest",
+    "@investorphem/stx-utils": "latest",
+    "@investorphem/validator-tools": "latest",
+    "axios": "1.14.0"
+  }
 }
