@@ -16,7 +16,7 @@ async function runMasterTest() {
     { id: 'Activity', pkg: 'stx-defi-activity-sdk' },
     { id: 'sBTC', pkg: 'sbtc-payment-sdk' },
     { id: 'Utils', pkg: '@investorphem/stx-utils' },
-    { id: 'Validator', pkg: '@investorphem/stx-validator-tools' },
+    { id: 'Validator', pkg: '@investorphem/stx-validator-tools'},
     { id: 'StringTools', pkg: '@investorphem/string-tools'}
   ];
 
