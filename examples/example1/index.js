@@ -17,7 +17,7 @@ async function runMasterTest() {
     { id: 'sBTC', pkg: 'sbtc-payment-sdk' },
     { id: 'Utils', pkg: '@investorphem/stx-utils' },
     { id: 'Validator', pkg: '@investorphem/stx-validator-tools' },
-    { id: 'StringTools', pkg: '@investorphem/string-tools' }
+    { id: 'StringTools', pkg: '@investorphem/string-tools'}
   ];
 
   const results = [];
