@@ -13,7 +13,7 @@ async function runMasterTest() {
     { id: 'Portfolio', pkg: 'stx-portfolio-sdk' },
     { id: 'Lending', pkg: 'hashlock-lending-sdk' },
     { id: 'Vault', pkg: 'stx-vault-sdk' },
-    { id: 'Activity', pkg: 'stx-defi-activity-sdk' },
+    { id: 'Activity', pkg: 'stx-defi-activity-sdk' }
     { id: 'sBTC', pkg: 'sbtc-payment-sdk' },
     { id: 'Utils', pkg: '@investorphem/stx-utils' },
     { id: 'Validator', pkg: '@investorphem/stx-validator-tools'},
