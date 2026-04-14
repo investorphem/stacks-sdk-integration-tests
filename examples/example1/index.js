@@ -31,7 +31,7 @@ async function runMasterTest() {
       results.push({ 
         SDK: sdk.id, 
         Status: "⚠️ SKIPPED", 
-        Package: sdk.pkg,
+        Package: sdk.pkg
         Reason: "Possible missing dist/ folder in npm"
       });
     }
