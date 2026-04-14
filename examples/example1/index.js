@@ -13,11 +13,11 @@ async function runMasterTest() {
     { id: 'Portfolio', pkg: 'stx-portfolio-sdk' },
     { id: 'Lending', pkg: 'hashlock-lending-sdk' },
     { id: 'Vault', pkg: 'stx-vault-sdk' },
-    { id: 'Activity', pkg: 'stx-defi-activity-sdk' }
+    { id: 'Activity', pkg: 'stx-defi-activity-sdk' },
     { id: 'sBTC', pkg: 'sbtc-payment-sdk' },
     { id: 'Utils', pkg: '@investorphem/stx-utils' },
-    { id: 'Validator', pkg: '@investorphem/stx-validator-tools'},
-    { id: 'StringTools', pkg: '@investorphem/string-tools'}
+    { id: 'Validator', pkg: '@investorphem/stx-validator-tools' },
+    { id: 'StringTools', pkg: '@investorphem/string-tools' }
   ];
 
   const results = [];
@@ -31,8 +31,8 @@ async function runMasterTest() {
       results.push({ 
         SDK: sdk.id, 
         Status: "⚠️ SKIPPED", 
-        Package: sdk.pkg
-        Reason: "Possible missing dist/ folder in npm"
+        Package: sdk.pkg,
+        Reason: "Possible missing dist/ folder in npm" 
       });
     }
   }
